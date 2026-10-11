@@ -23,7 +23,7 @@ const Course = mongoose.model('Course', new mongoose.Schema({
 async function updateAuthor(courseId) {
     const course = await Course.findById(courseId);
     course.author.name = 'Faizal Zafri';
-    course.save();
+    await course.save();
 }
 
 updateAuthor('5ccebb63d0ffc22dacf6aa83');

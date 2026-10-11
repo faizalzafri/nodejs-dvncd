@@ -24,14 +24,14 @@ async function listCourses() {
 async function addAuthor(couseId, author) {
     const course = await Course.findById(couseId);
     course.authors.push(author);
-    course.save();
+    await course.save();
 }
 
 async function removeAuthor(couseId, authorId) {
     const course = await Course.findById(couseId);
     const author = course.authors.id(authorId);
-    author.remove();
-    course.save();
+    author.deleteOne();
+    await course.save();
 }
 
 // addAuthor('5cced5fa56cb8325acfa2ca1', new Author({ name: 'Third' }));

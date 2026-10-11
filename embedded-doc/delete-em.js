@@ -24,12 +24,12 @@ const Course = mongoose.model('Course', new mongoose.Schema({
 async function updateAuthor(courseId) {
     const course = await Course.findById(courseId);
     course.author.name = 'Faizal Zafri';
-    course.save();
+    await course.save();
 }
 
 //updating directly in db
 async function updateAuthor2(courseId) {
-    const course = await Course.update({ _id: courseId },
+    const course = await Course.updateOne({ _id: courseId },
         {
             $set: {
                 'author.name': 'John Done'
@@ -39,7 +39,7 @@ async function updateAuthor2(courseId) {
 
 //deleting emb obj
 async function updateAuthor3(courseId) {
-    const course = await Course.update({ _id: courseId },
+    const course = await Course.updateOne({ _id: courseId },
         {
             $unset: {
                 'author': ''

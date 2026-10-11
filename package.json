@@ -1,22 +1,16 @@
 {
   "name": "nodejs-dvncd",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "private": true,
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faizalzafri/nodejs-dvncd.git"
   },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/faizalzafri/nodejs-dvncd/issues"
+  "engines": {
+    "node": ">=20.19"
   },
-  "homepage": "https://github.com/faizalzafri/nodejs-dvncd#readme",
   "dependencies": {
-    "mongoose": "^5.5.5"
+    "mongoose": "^9.11.1"
   }
 }

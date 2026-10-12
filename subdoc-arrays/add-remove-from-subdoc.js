@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/playground-subarr')
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/playground-subarr')
     .then(() => console.log('Connected to Cloud Mongo'))
     .catch(() => console.log('Failed to connect'));
 

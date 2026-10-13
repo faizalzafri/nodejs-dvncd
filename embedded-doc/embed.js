@@ -1,31 +1,12 @@
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/playgroundEmb')
-    .then(() => console.log('Connected'))
-    .catch(() => console.log('Failed to connect'));
+const { run } = require('../db');
+const { Author, Course } = require('../models');
 
-const authorSchema = new mongoose.Schema({
-    name: String,
-    bio: String,
-    wesite: String
-});
-
-const Author = mongoose.model('Author', authorSchema);
-
-const Course = mongoose.model('Course', new mongoose.Schema({
-    name: String,
-    author: authorSchema
-}));
-
-async function createCourse(name, author) {
+run('playgroundEmb', async () => {
     const course = new Course({
-        name,
-        author
+        name: 'MIYI',
+        author: new Author({ name: 'Faiz' })
     });
 
     const result = await course.save();
-    console.log('Course Saved: ', result)
-}
-
-createCourse('MIYI', new Author({
-    name: 'Faiz'
-}));
+    console.log('Course Saved: ', result);
+});

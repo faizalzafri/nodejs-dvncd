@@ -17,4 +17,13 @@ const Course = mongoose.model('Course', new mongoose.Schema({
     }
 }));
 
-module.exports = { Author, Course };
+// Course that stores only the author id and points to the Author model.
+const RefCourse = mongoose.model('RefCourse', new mongoose.Schema({
+    name: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Author'
+    }
+}));
+
+module.exports = { Author, Course, RefCourse };

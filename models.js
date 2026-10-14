@@ -26,4 +26,10 @@ const RefCourse = mongoose.model('RefCourse', new mongoose.Schema({
     }
 }));
 
-module.exports = { Author, Course, RefCourse };
+// Course with a list of embedded authors.
+const ArrayCourse = mongoose.model('ArrayCourse', new mongoose.Schema({
+    name: String,
+    authors: [authorSchema]
+}));
+
+module.exports = { Author, Course, RefCourse, ArrayCourse };

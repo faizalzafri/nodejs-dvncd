@@ -1,39 +1,25 @@
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/playground-subarr')
-    .then(() => console.log('Connected to Cloud Mongo'))
-    .catch(() => console.log('Failed to connect'));
+const { run } = require('../db');
+const { ArrayCourse } = require('../models');
 
-const authorSchema = new mongoose.Schema({
-    name: String,
-    bio: String,
-    wesite: String
-});
-
-const Author = mongoose.model('Author', authorSchema);
-
-const Course = mongoose.model('Course', new mongoose.Schema({
-    name: String,
-    authors: [authorSchema]
-}));
-
-async function listCourses() {
-    const courses = await Course.find();
-    console.log(JSON.stringify(courses));
+const [courseId, authorId] = process.argv.slice(2);
+if (!courseId || !authorId) {
+    console.error('Usage: node add-remove-from-subdoc.js <courseId> <authorIdToRemove>');
+    process.exit(1);
 }
 
-async function addAuthor(couseId, author) {
-    const course = await Course.findById(couseId);
-    course.authors.push(author);
+run('playgroundSubArr', async () => {
+    const course = await ArrayCourse.findById(courseId);
+    if (!course) throw new Error(`Course ${courseId} not found`);
+
+    // Add an author to the array.
+    course.authors.push({ name: 'Third' });
     await course.save();
-}
+    console.log('After add', course.authors);
 
-async function removeAuthor(couseId, authorId) {
-    const course = await Course.findById(couseId);
+    // Remove an author from the array by its id.
     const author = course.authors.id(authorId);
+    if (!author) throw new Error(`Author ${authorId} not found`);
     author.deleteOne();
     await course.save();
-}
-
-// addAuthor('5cced5fa56cb8325acfa2ca1', new Author({ name: 'Third' }));
-// removeAuthor('5cced5fa56cb8325acfa2ca1', '5cced5fa56cb8325acfa2ca2');
-listCourses();
+    console.log('After remove', course.authors);
+});

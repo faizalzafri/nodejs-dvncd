@@ -12,9 +12,15 @@
   },
   "scripts": {
     "db:up": "docker compose up -d",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "lint": "eslint ."
   },
   "dependencies": {
     "mongoose": "^9.11.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
   }
 }

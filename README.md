@@ -51,3 +51,45 @@ Get the ids from the output of `embed.js` and `adding-subdoc.js`.
 npm run lint
 npm test   # needs MongoDB running
 ```
+
+## Interview notes
+
+Short answers to common questions, one group per topic.
+
+### Embed or reference
+
+**Q: When do you embed a document?**
+A: When the child belongs to one parent, is read together with it, and stays small. Example: an address inside a user. One query gets everything.
+
+**Q: When do you use a reference?**
+A: When the data is shared by many documents, changes often, or can grow without limit. Example: an author used by many courses. You update it in one place.
+
+**Q: What is the hybrid approach?**
+A: Store the `_id` plus a few fields you show often, like the author `name`. Lists need one query, and you load the full author only when needed. The copied fields can get out of date, so pick fields that rarely change.
+
+### populate()
+
+**Q: What does `populate()` do?**
+A: It replaces a stored `_id` with the real document. Mongoose runs a second query to the other collection. It does not use a database join (`$lookup`), so the work happens in the app. See [references/ref.js](references/ref.js).
+
+**Q: What does `populate()` cost?**
+A: One extra query per populated path, and nested populates add more. On big lists, select only the fields you need, for example `populate('author', 'name')`, or use the hybrid approach.
+
+**Q: Does Mongoose check that a referenced id exists?**
+A: No. You can save an id that points to nothing, and `populate()` then returns `null`. Check it yourself if it matters.
+
+### Subdocument arrays
+
+**Q: How do you add or remove an item in a subdocument array?**
+A: Load the parent, `push()` the new item or call `deleteOne()` on `course.authors.id(id)`, then `save()` the parent. Or use `$push` / `$pull` in one `updateOne` without loading. See [subdoc-arrays](subdoc-arrays).
+
+**Q: What is the risk of big embedded arrays?**
+A: A document has a 16 MB limit, and every read and write moves the whole array. If a list can grow without limit, like comments or orders, put the items in their own collection with a reference to the parent.
+
+### Consistency
+
+**Q: Embedding copies data. How do you keep the copies up to date?**
+A: Update every copy with `updateMany`, accept that old copies may differ (fine for things like the name at the time of an order), or use a reference instead.
+
+**Q: Is a write to one document atomic?**
+A: Yes. A write to one document, including its embedded docs and arrays, is atomic. Changes across several documents need a transaction. This is another reason to embed data that must change together.

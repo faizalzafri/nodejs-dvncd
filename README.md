@@ -1,4 +1,4 @@
-# nodejs-dvncd
+# nodejs-mongoose-modeling
 
 Small Mongoose examples I wrote while learning how to model related data in MongoDB: embedded documents, references with `populate()`, and arrays of subdocuments. Each script runs on its own against a local MongoDB.
 

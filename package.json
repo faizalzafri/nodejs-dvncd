@@ -1,11 +1,11 @@
 {
-  "name": "nodejs-dvncd",
+  "name": "nodejs-mongoose-modeling",
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/faizalzafri/nodejs-dvncd.git"
+    "url": "git+https://github.com/faizalzafri/nodejs-mongoose-modeling.git"
   },
   "engines": {
     "node": ">=20.19"

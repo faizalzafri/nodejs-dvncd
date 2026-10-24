@@ -70,7 +70,7 @@ A: Store the `_id` plus a few fields you show often, like the author `name`. Lis
 ### populate()
 
 **Q: What does `populate()` do?**
-A: It replaces a stored `_id` with the real document. Mongoose runs a second query to the other collection. MongoDB has no joins here, so this happens in the app. See [references/ref.js](references/ref.js).
+A: It replaces a stored `_id` with the real document. Mongoose runs a second query to the other collection. It does not use a database join (`$lookup`), so the work happens in the app. See [references/ref.js](references/ref.js).
 
 **Q: What does `populate()` cost?**
 A: One extra query per populated path, and nested populates add more. On big lists, select only the fields you need, for example `populate('author', 'name')`, or use the hybrid approach.
